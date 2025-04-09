@@ -1,3 +1,4 @@
+#include "stdbool.h"
 #include "CH57x_common.h"
 #include "hid.h"
 #include "desc.h"
@@ -11,16 +12,15 @@ uint8_t        Report_Value = 0x00;
 uint8_t        Idle_Value = 0x00;
 uint8_t        USB_SleepStatus = 0x00;
 
-// 配置端点
+// 端点
 __attribute__((aligned(4))) uint8_t EP0_Databuf[64 + 64 + 64]; //ep0(64)+ep4_out(64)+ep4_in(64)
 __attribute__((aligned(4))) uint8_t EP1_Databuf[64 + 64];      //ep1_out(64)+ep1_in(64)
 __attribute__((aligned(4))) uint8_t EP2_Databuf[64 + 64];      //ep2_out(64)+ep2_in(64)
 __attribute__((aligned(4))) uint8_t EP3_Databuf[64 + 64];      //ep3_out(64)+ep3_in(64)
 
-pEP0_RAM_Addr = EP0_Databuf;
-pEP1_RAM_Addr = EP1_Databuf;
-pEP2_RAM_Addr = EP2_Databuf;
-pEP3_RAM_Addr = EP3_Databuf;
+// hid报告状态
+volatile bool keyboardReportSent;
+volatile bool mouseReportSent;
 
 /*********************************************************************
  * @fn      USB_DevTransProcess
@@ -98,6 +98,7 @@ void USB_DevTransProcess(void)
                 case UIS_TOKEN_IN | 1:
                     R8_UEP1_CTRL ^= RB_UEP_T_TOG;
                     R8_UEP1_CTRL = (R8_UEP1_CTRL & ~MASK_UEP_T_RES) | UEP_T_RES_NAK;
+                    keyboardReportSent = true;
                     break;
 
                 case UIS_TOKEN_OUT | 2:
@@ -114,6 +115,7 @@ void USB_DevTransProcess(void)
                 case UIS_TOKEN_IN | 2:
                     R8_UEP2_CTRL ^= RB_UEP_T_TOG;
                     R8_UEP2_CTRL = (R8_UEP2_CTRL & ~MASK_UEP_T_RES) | UEP_T_RES_NAK;
+                    mouseReportSent = true;
                     break;
 
                 case UIS_TOKEN_OUT | 3:
@@ -633,9 +635,26 @@ void DevEP4_OUT_Deal(uint8_t l)
  *********************************************************************/
 __attribute__((interrupt("WCH-Interrupt-fast")))
 __attribute__((section(".highcode")))
-void USB_IRQHandler(void) /* USB中断服务程序,使用寄存器组1 */
+void USB_IRQHandler(void)
 {
     USB_DevTransProcess();
+}
+
+/*********************************************************************
+ * @fn      initHid
+ *
+ * @brief   初始化hid
+ *
+ * @return  none
+ */
+void initHid() {
+    pEP0_RAM_Addr = EP0_Databuf;
+    pEP1_RAM_Addr = EP1_Databuf;
+    pEP2_RAM_Addr = EP2_Databuf;
+    pEP3_RAM_Addr = EP3_Databuf;
+
+    USB_DeviceInit();
+    PFIC_EnableIRQ(USB_IRQn);
 }
 
 /*********************************************************************
@@ -651,6 +670,12 @@ void sendKeyboardReport(KeyboardReport *report)
 {
     memcpy(pEP1_IN_DataBuf, report, sizeof(KeyboardReport));
     DevEP1_IN_Deal(sizeof(KeyboardReport));
+
+    keyboardReportSent = false;
+    uint16_t timeout = timeoutMs;
+    while (keyboardReportSent == false && timeout--) {
+        mDelaymS(1);
+    }
 }
 
 /*********************************************************************
@@ -666,20 +691,10 @@ void sendMouseReport(MouseReport *report)
 {
     memcpy(pEP2_IN_DataBuf, report, sizeof(MouseReport));
     DevEP2_IN_Deal(sizeof(MouseReport));
-}
 
-/*********************************************************************
- * @fn      wakeup
- *
- * @brief   唤醒主机
- *
- * @return  none
- */
-void wakeup(void)
-{
-    R16_PIN_ANALOG_IE &= ~(RB_PIN_USB_DP_PU);
-    R8_UDEV_CTRL |= RB_UD_LOW_SPEED;
-    mDelaymS(2);
-    R8_UDEV_CTRL &= ~RB_UD_LOW_SPEED;
-    R16_PIN_ANALOG_IE |= RB_PIN_USB_DP_PU;
+    mouseReportSent = false;
+    uint16_t timeout = timeoutMs;
+    while (mouseReportSent == false && timeout--) {
+        mDelaymS(1);
+    }
 }

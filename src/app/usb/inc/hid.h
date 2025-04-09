@@ -6,6 +6,9 @@
 // USB端点大小
 #define DevEP0SIZE 0x40
 
+// 发送超时时间
+#define timeoutMs 10
+
 // 键盘报告
 typedef struct {
     uint8_t modifiers; // 修饰键（Ctrl, Shift等）
@@ -25,8 +28,8 @@ typedef struct {
 void USB_IRQHandler(void);
 
 // hid函数
+void initHid();
 void sendKeyboardReport(KeyboardReport*);
 void sendMouseReport(MouseReport*);
-void wakeup(void);
 
 #endif
