@@ -151,7 +151,8 @@
 						"include_paths": [
 							"${project}/StdPeriphDriver/inc",
 							"${project}/RVMSIS",
-							"${project}/src/app/usb/inc"
+							"${project}/src/modules/usb/inc",
+							"${project}/src/modules/ble/inc"
 						],
 						"include_system_paths": [],
 						"include_files": []
@@ -226,10 +227,12 @@
 					},
 					"libraries": {
 						"libraries": [
-							"ISP573"
+							"ISP573",
+							"CH57xBLE"
 						],
 						"library_search_path": [
-							"${project}/StdPeriphDriver"
+							"${project}/StdPeriphDriver",
+							"${project}/src/modules/ble/lib"
 						]
 					},
 					"miscellaneous": {
@@ -266,10 +269,12 @@
 					},
 					"libraries": {
 						"libraries": [
-							"ISP573"
+							"ISP573",
+							"CH57xBLE"
 						],
 						"library_search_path": [
-							"${project}/StdPeriphDriver"
+							"${project}/StdPeriphDriver",
+							"${project}/src/modules/ble/lib"
 						]
 					},
 					"miscellaneous": {

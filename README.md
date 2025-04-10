@@ -7,7 +7,9 @@
 
 ## src目录结构
 ```
-├── vendor # 厂商库
-├── app # 应用库
-└── main.c # 主程序
+src
+|-- main.c # 主程序
+`-- modules # 模块
+    |-- ble # 蓝牙
+    `-- usb # usb
 ```
