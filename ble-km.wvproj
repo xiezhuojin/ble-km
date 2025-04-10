@@ -152,7 +152,8 @@
 							"${project}/StdPeriphDriver/inc",
 							"${project}/RVMSIS",
 							"${project}/src/modules/usb/inc",
-							"${project}/src/modules/ble/inc"
+							"${project}/src/modules/ble/inc",
+							"${project}/src/modules/hal/inc"
 						],
 						"include_system_paths": [],
 						"include_files": []

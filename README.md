@@ -11,5 +11,6 @@ src
 |-- main.c # 主程序
 `-- modules # 模块
     |-- ble # 蓝牙
+    |-- hal # 抽象
     `-- usb # usb
 ```
