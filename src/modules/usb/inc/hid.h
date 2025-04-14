@@ -3,9 +3,6 @@
 
 #include <stdint.h>
 
-// USB端点大小
-#define DevEP0SIZE 0x40
-
 // 发送超时时间
 #define timeoutMs 10
 

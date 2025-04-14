@@ -30,7 +30,7 @@ volatile bool mouseReportSent;
  * @param   none
  *
  * @return  none
- *********************************************************************/
+ */
 void USB_DevTransProcess(void)
 {
     uint8_t len, chtype;
@@ -632,7 +632,7 @@ void DevEP4_OUT_Deal(uint8_t l)
  * @param   none
  *
  * @return  none
- *********************************************************************/
+ */
 __attribute__((interrupt("WCH-Interrupt-fast")))
 __attribute__((section(".highcode")))
 void USB_IRQHandler(void)
