@@ -18,6 +18,11 @@
 				"parentLogicPath": "",
 				"type": "file",
 				"name": "*.wvproj"
+			},
+			{
+				"name": "dev_info_service.c",
+				"parentLogicPath": "src/modules/ble",
+				"type": "file"
 			}
 		],
 		"projectName": "ble-km",
