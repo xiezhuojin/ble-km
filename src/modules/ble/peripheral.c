@@ -113,7 +113,18 @@ void initBlePeripheral() {
 
     // Set the GAP Characteristics
     GGS_SetParameter(GGS_DEVICE_NAME_ATT, GAP_DEVICE_NAME_LEN, DEVICE_NAME);
+}
 
+/*********************************************************************
+ * @fn      startBlePeripheral
+ *
+ * @brief   开始化蓝牙外设
+ *
+ * @param   
+ *
+ * @return  none
+ */
+void startBlePeripheral() {
     // Setup a delayed profile startup
     Peripheral_TaskID = TMOS_ProcessEventRegister(Peripheral_ProcessEvent);
     tmos_set_event(Peripheral_TaskID, SBP_START_DEVICE_EVT);

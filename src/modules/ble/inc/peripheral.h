@@ -11,5 +11,6 @@
 
 // 蓝牙函数
 void initBlePeripheral();
+void startBlePeripheral();
 
 #endif
