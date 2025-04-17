@@ -1,7 +1,6 @@
-#include "config.h"
 #include "devinfo_service.h"
+#include "config.h"
 
-// 设备信息
 // Device information service
 const uint8_t devInfoServUUID[ATT_BT_UUID_SIZE] = {LO_UINT16(DEVINFO_SERV_UUID), HI_UINT16(DEVINFO_SERV_UUID)};
 // Manufacturer Name String
