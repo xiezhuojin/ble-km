@@ -14,15 +14,11 @@ static const gattAttrType_t hidService = {ATT_BT_UUID_SIZE, hidServUUID};
 
 // Keyboard Report Properties
 static uint8_t keyboardReportProps = GATT_PROP_WRITE;
-// Keyboard Report Value
-static uint8_t keyboardReport[sizeof(KeyboardReport)] = {0};
 // Keyboard Report User Description
 static uint8_t keyboardReportUserDesp[] = "keyboard report\0";
 
 // Mouse Report Properties
 static uint8_t mouseReportProps = GATT_PROP_WRITE;
-// Mouse Report Value
-static uint8_t mouseReport[sizeof(MouseReport)] = {0};
 // Keyboard Report User Description
 static uint8_t mouseReportUserDesp[] = "mouse report\0";
 
@@ -49,7 +45,7 @@ static gattAttribute_t hidAttrTbl[] = {
         {ATT_BT_UUID_SIZE, keyboardReportUUID},
         GATT_PERMIT_WRITE,
         0,
-        keyboardReport
+        NULL
     },
 
     // Keyboard Report User Description
@@ -73,7 +69,7 @@ static gattAttribute_t hidAttrTbl[] = {
         {ATT_BT_UUID_SIZE, mouseReportUUID},
         GATT_PERMIT_WRITE,
         0,
-        mouseReport
+        NULL
     },
 
     // Mouse Report User Description
@@ -117,7 +113,7 @@ static bStatus_t hid_WriteAttrCB(uint16_t connHandle, gattAttribute_t *pAttr,
             if (len != sizeof(KeyboardReport)) {
                 status = ATT_ERR_INVALID_VALUE_SIZE;
             } else {
-                sendKeyboardReport((KeyboardReport *)pValue);
+                sendKeyboardReport((KeyboardReport *) pValue);
             }
             break;
 
@@ -125,7 +121,7 @@ static bStatus_t hid_WriteAttrCB(uint16_t connHandle, gattAttribute_t *pAttr,
             if (len != sizeof(MouseReport)) {
                 status = ATT_ERR_INVALID_VALUE_SIZE;
             } else {
-                sendMouseReport((MouseReport *)pValue);
+                sendMouseReport((MouseReport *) pValue);
             }
             break;
 

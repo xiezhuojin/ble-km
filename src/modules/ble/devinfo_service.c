@@ -61,7 +61,8 @@ static gattAttribute_t devInfoAttrTbl[] = {
         {ATT_BT_UUID_SIZE, devInfoModelNumberUUID},
         GATT_PERMIT_READ,
         0,
-        (uint8_t *)devInfoModelNumber},
+        (uint8_t *)devInfoModelNumber
+    },
 
     // Firmware Revision String Declaration
     {
