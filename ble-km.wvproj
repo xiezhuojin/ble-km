@@ -20,9 +20,9 @@
 				"name": "*.wvproj"
 			},
 			{
-				"name": "dev_info_service.c",
 				"parentLogicPath": "src/modules/ble",
-				"type": "file"
+				"type": "file",
+				"name": "dev_info_service.c"
 			}
 		],
 		"projectName": "ble-km",
@@ -158,7 +158,8 @@
 							"${project}/RVMSIS",
 							"${project}/src/modules/usb/inc",
 							"${project}/src/modules/ble/inc",
-							"${project}/src/modules/hal/inc"
+							"${project}/src/modules/hal/inc",
+							"${project}/src/modules/ota/inc"
 						],
 						"include_system_paths": [],
 						"include_files": []
