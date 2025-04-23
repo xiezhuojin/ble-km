@@ -4,6 +4,7 @@
 #include "hid.h"
 #include "devinfo_service.h"
 #include "hid_service.h"
+#include "ota_service.h"
 
 /*********************************************************************
  * @fn      Main_Circulation
@@ -47,6 +48,7 @@ int main() {
     // 添加GATT服务
     addGattDevinfoService();
     addGattHidService();
+    addGattOtaService();
 
     Main_Circulation();
 }
