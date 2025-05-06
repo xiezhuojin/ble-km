@@ -79,7 +79,7 @@ static bStatus_t ota_WriteAttrCB(uint16_t connHandle, gattAttribute_t *pAttr,
     uint16 uuid = BUILD_UINT16(pAttr->type.uuid[0], pAttr->type.uuid[1]);
     switch (uuid) {
         case OTA_UUID:
-            if (len != OtaPacketSize) {
+            if (len != OTA_PACKET_SIZE) {
                 status = ATT_ERR_INVALID_VALUE_SIZE;
             } else {
                 bool success = handleOta((OtaPacket *) pValue);
